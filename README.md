@@ -33,4 +33,44 @@ samples, guidance on mobile development, and a full API reference.
         -   Contoh: formulir interaktif, daftar yang dapat digulir, tampilan halaman detail, dan komponen yang memerlukan interaktivitas.
     
 2.  **Sebutkan seluruh widget yang kamu gunakan untuk menyelesaikan tugas ini dan jelaskan fungsinya masing-masing.**
-    
+    1.  MyHomePage: Ini adalah kelas yang merepresentasikan halaman utama aplikasi. Diwarisi dari StatelessWidget, artinya tidak menyimpan state.
+    2.  Scaffold: Widget yang memberikan struktur dasar untuk tampilan visual aplikasi seperti AppBar, body, dan floatingActionButton.
+    3.  AppBar: Sebuah app bar dengan desain Material, digunakan untuk menampilkan judul aplikasi, branding, atau navigasi.
+    4.  Text: Widget yang menampilkan teks dengan gaya yang bisa disesuaikan.
+    5.  SingleChildScrollView: Widget scrollable untuk konten yang lebih besar daripada layar.
+    6.  Padding: Widget yang memberikan ruang di sekitar widget anaknya.
+    7.  Column: Menampilkan anak-anaknya dalam susunan vertikal.
+    8.  GridView: Menampilkan widget anaknya dalam bentuk grid yang bisa discroll.
+    9.  ShopCard: Widget kustom yang menerima objek ShopItem dan menampilkannya dalam bentuk card.
+    10. Material: Widget yang menerapkan visual Material Design.
+
+3.  **Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)**
+    1.  **Membuat Program Flutter Baru dengan Tema Inventory**
+        -   jalankan perintah flutter create dhemas_musicstore untuk memulai proyek Flutter.
+        -   Navigasi ke direktori proyek dengan cd dhemas_musicstore.
+    2.  **Membuat Tiga Tombol Sederhana dengan Ikon dan Teks**
+        -   Ubah main.dart dengan mengganti MyHomePage(title: 'Flutter Demo Home Page') menjadi MyHomePage().
+        -   Di menu.dart:
+            *   Definisikan tipe data untuk item yang akan dijual:
+
+                class ShopItem {
+                    final String name;
+                    final IconData icon;
+
+                    ShopItem(this.name, this.icon);
+                }
+
+            *   Modifikasi widget halaman menjadi stateless dan sesuaikan konstruktor:
+
+                ({Key? key}) : super(key: key);
+            
+            *   Daftar barang yang akan dijual:
+                
+                final List<ShopItem> items = [
+                    ShopItem("Lihat Item", Icons.checklist),
+                    ShopItem("Tambah Item", Icons.add_shopping_cart),
+                    ShopItem("Logout", Icons.logout),
+                ];
+
+            
+            
