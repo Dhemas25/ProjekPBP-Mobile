@@ -1,21 +1,3 @@
-# dhemas_musicstore
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-
 ## Nama    :   Dhemas Wicaksono Nugroho
 ## NPM     :   2206030786
 ## Kelas   :   PBP E##
@@ -71,6 +53,181 @@ samples, guidance on mobile development, and a full API reference.
                     ShopItem("Tambah Item", Icons.add_shopping_cart),
                     ShopItem("Logout", Icons.logout),
                 ];
+
+    3.  **Memunculkan Snackbar dengan tulisan:**
+        -   ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(
+                content: Text("Kamu telah menekan tombol ${item.name}!")));
+
+
+### **TUGAS 8**
+
+1.  **Jelaskan perbedaan antara Navigator.push() dan Navigator.pushReplacement(), disertai dengan contoh mengenai penggunaan kedua metode tersebut yang tepat!**
+    -   **Navigator.Push()**
+        Metode ini digunakan untuk menambahkan halaman baru ke dalam tumpukan navigasi (navigation stack).
+        -   Contoh: 
+            if (item.name == "Tambah Produk") {
+              // TODO: Gunakan Navigator.push untuk melakukan navigasi ke MaterialPageRoute yang mencakup ShopFormPage.
+              Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const ShopFormPage()));
+            }
+    -   **Navigator.pushReplacement()**
+        Metode ini digunakan untuk menambahkan halaman baru ke dalam tumpukan navigasi, tetapi dengan menggantikan halaman saat ini.
+        -   contoh:
+            onTap: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyHomePage(),
+                  ));
+            },
+
+2.  **Jelaskan masing-masing layout widget pada Flutter dan konteks penggunaannya masing-masing!**
+    1.  Container:
+        Digunakan untuk menentukan area konten di layar. Container dapat berisi widget lain dan dapat dikonfigurasi dengan properti seperti padding, margin, dan dekorasi.
+    2.  Row dan Column:
+        Digunakan untuk mengatur widget secara horizontal (Row) atau vertikal (Column). 
+    3.  ListView:
+        Digunakan untuk menampilkan daftar item yang dapat di-scroll. 
+    4.  GridView:
+        Mirip dengan ListView, tetapi digunakan untuk menampilkan item dalam bentuk grid.
+
+3.  **Sebutkan apa saja elemen input pada form yang kamu pakai pada tugas kali ini dan jelaskan mengapa kamu menggunakan elemen input tersebut!**
+    Elemen input yang dipakai pada form adalah string name, integer amount, dan string description. Hal ini sesuai dengan proyek django saya yang memanfaatkan model produk dengan atribut name, amount, description.
+
+4.  **Bagaimana penerapan clean architecture pada aplikasi Flutter?**
+
+5.  **Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial)**
+    1.  **Membuat minimal satu halaman baru pada aplikasi, yaitu halaman formulir tambah item baru**
+        -   membuat file baru yaitu shoplist_form.dart
+        -   pada class shopformstate menambahkan variabel _name, _amount, _description
+        -   membuat input field form dengan validator, contohnya untuk elemen name:
+            Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              hintText: "Nama Produk",
+                              labelText: "Nama Produk",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                            ),
+                            onChanged: (String? value) {
+                              setState(() {
+                                _name = value!;
+                              });
+                            },
+                            validator: (String? value) {
+                              if (value == null || value.isEmpty) {
+                                return "Nama tidak boleh kosong!";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+        -   Kemudian membuat untuk tiap elemen lain
+        -   Memiliki tombol save:
+            child: const Text(
+                              "Save",
+                              style: TextStyle(color: Colors.white),
+                            ),
+    2.  **Mengarahkan pengguna ke halaman form tambah item baru ketika menekan tombol Tambah Item pada halaman utama.**
+        if (item.name == "Tambah Produk") {
+              // TODO: Gunakan Navigator.push untuk melakukan navigasi ke MaterialPageRoute yang mencakup ShopFormPage.
+              Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const ShopFormPage()));
+            }
+
+    3.  **Memunculkan data sesuai isi dari formulir yang diisi dalam sebuah pop-up setelah menekan tombol Save pada halaman formulir tambah item baru.**
+        Dalam shoplift_form.dart:
+
+        onPressed: () {
+            if (_formKey.currentState!.validate()) {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                        return AlertDialog(
+                            title: const Text('Produk berhasil tersimpan'),
+                            content: SingleChildScrollView(
+                                child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                        Text('Nama: $_name'),
+                                        Text('Jumlah: $_amount'),
+                                        Text('Deskripsi: $_description'),
+                                    ],
+                                ),
+                            ),
+                            actions: [
+                                TextButton(
+                                    child: const Text('OK'),
+                                    onPressed: () {
+                                        Navigator.pop(context);
+                                    },
+                                ),
+                            ],
+                        );
+                    },
+                );
+                _formKey.currentState!.reset();
+                }
+            },
+    4.  **Membuat sebuah drawer pada aplikasi dengan ketentuan**
+        -   Drawer minimal memiliki dua buah opsi, yaitu Halaman Utama dan Tambah Item.
+            Menggunakan ListTile():
+
+            ListTile(
+            leading: const Icon(Icons.home_outlined),
+            title: const Text('Halaman Utama'),
+            // Bagian redirection ke MyHomePage
+            onTap: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyHomePage(),
+                  ));
+            },
+            ),
+            ListTile(
+                leading: const Icon(Icons.add_shopping_cart),
+                title: const Text('Tambah Produk'),
+                // Bagian redirection ke ShopFormPage
+                onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                    builder: (context) => ShopFormPage(), // Gantilah dengan nama halaman yang sesuai
+                    ),
+                );
+                },
+            ),
+        
+        -   Ketika memiih opsi Halaman Utama, maka aplikasi akan mengarahkan pengguna ke halaman utama.
+            Menggunakan navigator.pushReplacement() routing ke MyHomePage()
+
+            onTap: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyHomePage(),
+                  ));
+            },
+
+        -   Ketika memiih opsi (Tambah Item), maka aplikasi akan mengarahkan pengguna ke halaman form tambah item baru
+            Menggunakan navigator.push()
+
+            onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                    builder: (context) => ShopFormPage(), // Gantilah dengan nama halaman yang sesuai
+                    ),
+                );
+            },
+
+
 
             
             
