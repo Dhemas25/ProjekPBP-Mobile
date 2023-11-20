@@ -1,3 +1,4 @@
+import 'package:dhemas_musicstore/screens/list_product.dart';
 import 'package:flutter/material.dart';
 import 'package:dhemas_musicstore/screens/menu.dart';
 import 'package:dhemas_musicstore/screens/shoplist_form.dart';
@@ -62,6 +63,17 @@ class LeftDrawer extends StatelessWidget {
                 ),
               );
             },
+          ),
+          ListTile(
+              leading: const Icon(Icons.shopping_basket),
+              title: const Text('Daftar Produk'),
+              onTap: () {
+                  // Route menu ke halaman produk
+                  Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProductPage()),
+                  );
+              },
           ),
         ],
       ),
